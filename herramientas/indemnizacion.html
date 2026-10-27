@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de indemnización por despido 2026 (Ley 27.802)</title>
+<meta name="description" content="Calculá tu indemnización por despido sin causa en Argentina con la reforma laboral 2026: antigüedad, preaviso, integración, SAC y vacaciones proporcionales.">
+<link rel="canonical" href="https://juanmarcosgianotti-cyber.github.io/Repositorio/herramientas/indemnizacion.html">
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/calc.js"></script>
+<script src="../assets/site.js"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"¿Cómo se calcula la indemnización por despido sin causa?","acceptedAnswer":{"@type":"Answer","text":"Se paga un mes de la mejor remuneración mensual, normal y habitual por cada año de antigüedad o fracción mayor a tres meses (art. 245 LCT). A eso se suman el preaviso, la integración del mes de despido, el aguinaldo y las vacaciones proporcionales."}},
+{"@type":"Question","name":"¿Qué cambió con la reforma laboral de 2026?","acceptedAnswer":{"@type":"Answer","text":"La Ley 27.802 aclaró que la base de la indemnización por antigüedad no incluye conceptos que no se pagan todos los meses, como el aguinaldo, las vacaciones o los premios no mensuales. Esos rubros siguen cobrándose por separado en la liquidación final."}},
+{"@type":"Question","name":"¿Me corresponde indemnización en el período de prueba?","acceptedAnswer":{"@type":"Answer","text":"No. Durante el período de prueba (en general, los primeros 6 meses) no corresponde indemnización por antigüedad, preaviso ni integración del mes de despido. Sí se pagan los días trabajados, el aguinaldo y las vacaciones proporcionales."}}
+]}
+</script>
+</head>
+<body>
+<main>
+  <h1>Calculadora de indemnización por despido</h1>
+  <p class="bajada">Estimá tu liquidación final por despido sin causa según la Ley de Contrato de Trabajo, con los cambios de la Ley 27.802 (2026).</p>
+
+  <form class="calculadora" id="form" data-resultado="salida">
+    <div class="campos">
+      <div>
+        <label for="ingreso">Fecha de ingreso</label>
+        <input id="ingreso" type="date" value="2021-03-01">
+      </div>
+      <div>
+        <label for="egreso">Fecha de despido</label>
+        <input id="egreso" type="date">
+      </div>
+      <div>
+        <label for="sueldo">Mejor sueldo mensual normal y habitual <small>(bruto)</small></label>
+        <input id="sueldo" inputmode="decimal" value="1.200.000">
+      </div>
+      <div>
+        <label for="tope">Tope de convenio <small>(opcional)</small></label>
+        <input id="tope" inputmode="decimal" placeholder="Sin tope">
+      </div>
+      <div>
+        <label for="prueba">Período de prueba <small>(meses)</small></label>
+        <input id="prueba" inputmode="numeric" value="6">
+      </div>
+    </div>
+    <p>
+      <label class="check"><input type="checkbox" id="preaviso"> El empleador me dio preaviso por escrito</label>
+      <label class="check"><input type="checkbox" id="vacaciones" checked> Incluir vacaciones no gozadas del año</label>
+    </p>
+    <div class="salida" id="salida" aria-live="polite"></div>
+  </form>
+
+  <p class="aviso"><strong>Importante:</strong> esta es una estimación. Los convenios colectivos, los rubros variables y los cambios recientes de la Ley 27.802 pueden modificar el resultado. Antes de firmar un acuerdo o una liquidación, consultá con un abogado laboralista o con tu sindicato.</p>
+
+  <h2>Qué incluye la liquidación por despido sin causa</h2>
+  <ul>
+    <li><strong>Indemnización por antigüedad (art. 245 LCT):</strong> un mes de sueldo por cada año trabajado o fracción mayor a tres meses. Si trabajaste más que el período de prueba, el mínimo es un mes.</li>
+    <li><strong>Preaviso omitido (art. 231 y 232):</strong> si no te avisaron con anticipación, se paga un mes de sueldo con hasta 5 años de antigüedad o dos meses con más de 5 años. Durante el período de prueba no corresponde.</li>
+    <li><strong>Integración del mes de despido (art. 233):</strong> si te despiden sin preaviso antes del último día del mes, se pagan los días que faltaban para terminarlo.</li>
+    <li><strong>SAC sobre preaviso e integración:</strong> la doctrina y la jurisprudencia mayoritarias agregan 1/12 sobre esos rubros.</li>
+    <li><strong>Días trabajados del mes, aguinaldo proporcional y vacaciones no gozadas:</strong> se pagan en cualquier tipo de desvinculación, incluso con renuncia.</li>
+  </ul>
+
+  <h2>Qué cambió con la reforma laboral (Ley 27.802)</h2>
+  <p>La Ley de Modernización Laboral, publicada en marzo de 2026, mantuvo la fórmula de un mes por año, pero precisó que la <strong>base de cálculo es solo la remuneración mensual</strong>. El aguinaldo, las vacaciones y los premios que no se pagan todos los meses <strong>no integran la base</strong> de la indemnización por antigüedad. Esos rubros se siguen cobrando aparte.</p>
+  <p>Por eso, en el campo "mejor sueldo" ingresá el mejor bruto mensual del último año, sin sumarle aguinaldo. Si cobrás comisiones u horas extra de forma habitual, en general se incluyen.</p>
+  <p>Algunos artículos de la ley fueron suspendidos por una medida cautelar en 2026, que luego se dejó sin efecto. Si tu caso está en discusión, verificá la situación judicial vigente con un profesional.</p>
+
+  <h2>El tope del convenio y el fallo Vizzoti</h2>
+  <p>El art. 245 limita la base a tres veces el promedio de las remuneraciones del convenio colectivo aplicable. La Corte Suprema, en el fallo <em>Vizzoti</em> (2004), resolvió que ese tope no puede reducir la base a menos del <strong>67% del sueldo real</strong>. La calculadora aplica esa regla si cargás un tope.</p>
+
+  <h2>Preguntas frecuentes</h2>
+  <details><summary>¿Las multas por trabajo no registrado siguen existiendo?</summary><p>Las principales multas por trabajo no registrado de las leyes 24.013 y 25.323 fueron derogadas por la Ley 27.742 de 2024. Esta calculadora no incluye multas ni recargos: si tu caso tiene irregularidades, consultá con un abogado.</p></details>
+  <details><summary>¿La indemnización paga aportes o Ganancias?</summary><p>La indemnización por antigüedad, el preaviso y la integración son rubros indemnizatorios y no llevan aportes. Los días trabajados, el SAC proporcional y las vacaciones no gozadas sí tienen descuentos.</p></details>
+  <details><summary>¿Cuánto tiempo tiene el empleador para pagar?</summary><p>La liquidación final debe pagarse dentro de los 4 días hábiles posteriores a la extinción de la relación laboral.</p></details>
+</main>
+<script>
+  const ahora = new Date();
+  document.getElementById('egreso').value = new Date(ahora - ahora.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+  UI.vincular('form', () => {
+    const ingreso = document.getElementById('ingreso').value;
+    const egreso = document.getElementById('egreso').value;
+    const sueldo = UI.valor('sueldo');
+    if (!ingreso || !egreso) return UI.error('salida', 'Completá las dos fechas.');
+    if (!(sueldo > 0)) return UI.error('salida', 'Ingresá un sueldo válido.');
+    const r = Calc.indemnizacion({
+      ingreso,
+      egreso,
+      sueldo,
+      tope: UI.valor('tope') || 0,
+      periodoPruebaMeses: UI.valor('prueba') || 0,
+      preavisoOtorgado: document.getElementById('preaviso').checked,
+      incluirVacaciones: document.getElementById('vacaciones').checked,
+    });
+    const filas = r.items.map((i) => [i.concepto, UI.pesos(i.monto)]);
+    filas.push(['Total bruto estimado', UI.pesos(r.total), true]);
+    const notas = [];
+    if (r.enPrueba) notas.push('El despido ocurre durante el período de prueba: no corresponden indemnización por antigüedad, preaviso ni integración.');
+    if (r.base !== sueldo) notas.push(`Se aplicó el tope de convenio: base de cálculo ${UI.pesos(r.base)}.`);
+    notas.push('Los rubros remunerativos (días trabajados, SAC y vacaciones) tienen además los descuentos del 17%.');
+    UI.mostrar('salida', filas, notas.join(' '));
+  });
+</script>
+</body>
+</html>

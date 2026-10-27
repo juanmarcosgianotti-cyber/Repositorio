@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de sueldo neto 2026 (Argentina) – de bruto a bolsillo</title>
+<meta name="description" content="Calculá tu sueldo neto en Argentina: descuentos de jubilación (11%), obra social (3%), PAMI (3%) y sindicato, con el tope de la base imponible actualizado.">
+<link rel="canonical" href="https://juanmarcosgianotti-cyber.github.io/Repositorio/herramientas/sueldo-neto.html">
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/calc.js"></script>
+<script src="../assets/site.js"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"¿Cuánto se descuenta del sueldo bruto en Argentina?","acceptedAnswer":{"@type":"Answer","text":"Un empleado en relación de dependencia aporta en general el 17% del bruto: 11% jubilación, 3% obra social y 3% PAMI (Ley 19.032). Si estás afiliado a un sindicato puede haber una cuota adicional, y si superás el mínimo no imponible también se retiene Impuesto a las Ganancias."}},
+{"@type":"Question","name":"¿Qué es el tope de la base imponible?","acceptedAnswer":{"@type":"Answer","text":"Es el monto máximo sobre el que se calculan los aportes. Si tu bruto lo supera, el 17% se aplica solo sobre el tope. ANSES lo actualiza todos los meses."}}
+]}
+</script>
+</head>
+<body>
+<main>
+  <h1>Calculadora de sueldo neto</h1>
+  <p class="bajada">Pasá de sueldo bruto a sueldo en mano para empleados en relación de dependencia en Argentina.</p>
+
+  <form class="calculadora" id="form" data-resultado="salida">
+    <div class="campos">
+      <div>
+        <label for="bruto">Sueldo bruto mensual</label>
+        <input id="bruto" inputmode="decimal" placeholder="Ej.: 1.200.000" value="1.200.000">
+      </div>
+      <div>
+        <label for="sindicato">Cuota sindical <small>(%, opcional)</small></label>
+        <input id="sindicato" inputmode="decimal" placeholder="0" value="0">
+      </div>
+      <div>
+        <label for="tope">Tope base imponible <small id="vigencia"></small></label>
+        <input id="tope" inputmode="decimal">
+      </div>
+    </div>
+    <div class="salida" id="salida" aria-live="polite"></div>
+  </form>
+
+  <p class="aviso">No incluye Impuesto a las Ganancias, que solo se retiene a sueldos altos y depende de deducciones personales (cónyuge, hijos, alquiler, etc.).</p>
+
+  <h2>Cómo se calcula el sueldo neto</h2>
+  <p>El empleador retiene del sueldo bruto los <strong>aportes personales</strong> del trabajador y los deposita en ARCA (ex AFIP). Para la gran mayoría de los empleados son:</p>
+  <ul>
+    <li><strong>11% jubilación</strong> (SIPA).</li>
+    <li><strong>3% obra social</strong>.</li>
+    <li><strong>3% PAMI</strong> (Ley 19.032, INSSJP).</li>
+  </ul>
+  <p>En total, el <strong>17% del bruto</strong>. Si estás afiliado a un sindicato, suele descontarse además una cuota de entre 1% y 3% según el convenio. Algunos convenios también tienen aportes solidarios o seguros obligatorios que no están incluidos acá.</p>
+  <p>Los aportes se calculan sobre una base con un máximo: el <strong>tope de la base imponible</strong>. Si ganás más que ese tope, los porcentajes se aplican solo hasta el tope y el resto no tiene aportes. El valor precargado es una referencia; ANSES lo actualiza mensualmente, así que podés corregirlo con el vigente.</p>
+
+  <h2>Ejemplo</h2>
+  <p>Con un bruto de $1.200.000 sin sindicato: jubilación $132.000, obra social $36.000 y PAMI $36.000. Total de descuentos $204.000 y sueldo neto de <strong>$996.000</strong>.</p>
+
+  <h2>Preguntas frecuentes</h2>
+  <details><summary>¿Los conceptos no remunerativos tienen descuentos?</summary><p>No llevan aportes jubilatorios, aunque algunos convenios establecen aportes de obra social sobre ellos. Si tu recibo tiene sumas no remunerativas, sumalas aparte al neto que te da la calculadora.</p></details>
+  <details><summary>¿El aguinaldo tiene los mismos descuentos?</summary><p>Sí, el aguinaldo es remunerativo y lleva el mismo 17% de aportes. Podés calcularlo con la <a href="aguinaldo.html">calculadora de aguinaldo</a>.</p></details>
+  <details><summary>¿Y si soy monotributista?</summary><p>Esta calculadora es para empleados en relación de dependencia. Los monotributistas pagan una cuota fija mensual según su categoría y no tienen retenciones sobre lo que facturan.</p></details>
+</main>
+<script>
+  document.getElementById('tope').value = UI.num(Calc.CONFIG.topeBaseImponible);
+  document.getElementById('vigencia').textContent = `(ref. ${Calc.CONFIG.topeBaseImponibleVigencia})`;
+  UI.vincular('form', () => {
+    const bruto = UI.valor('bruto');
+    if (!(bruto > 0)) return UI.error('salida', 'Ingresá un sueldo bruto válido.');
+    const r = Calc.sueldoNeto({ bruto, tope: UI.valor('tope') || 0, sindicatoPct: UI.valor('sindicato') || 0 });
+    UI.mostrar('salida', [
+      ['Jubilación (11%)', UI.pesos(r.jubilacion)],
+      ['Obra social (3%)', UI.pesos(r.obraSocial)],
+      ['PAMI (3%)', UI.pesos(r.pami)],
+      ['Cuota sindical', UI.pesos(r.sindicato)],
+      ['Total descuentos', UI.pesos(r.descuentos)],
+      ['Sueldo neto', UI.pesos(r.neto), true],
+    ], r.topeAplicado ? `Tu bruto supera el tope: los aportes se calcularon sobre ${UI.pesos(r.base)}.` : '');
+  });
+</script>
+</body>
+</html>

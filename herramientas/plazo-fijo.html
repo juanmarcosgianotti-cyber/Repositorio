@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulador de plazo fijo 2026 – interés, TEA y rendimiento real</title>
+<meta name="description" content="Simulá tu plazo fijo: cuánto ganás según la TNA y los días, la TEA equivalente y si le ganás o no a la inflación.">
+<link rel="canonical" href="https://juanmarcosgianotti-cyber.github.io/Repositorio/herramientas/plazo-fijo.html">
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/calc.js"></script>
+<script src="../assets/site.js"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"¿Cómo se calcula el interés de un plazo fijo?","acceptedAnswer":{"@type":"Answer","text":"Interés = capital × TNA ÷ 100 × días ÷ 365. Por ejemplo, $1.000.000 a 30 días con una TNA de 36,5% generan $30.000."}},
+{"@type":"Question","name":"¿Qué diferencia hay entre TNA y TEA?","acceptedAnswer":{"@type":"Answer","text":"La TNA es la tasa nominal anual que informa el banco. La TEA supone que renovás el plazo fijo con los intereses durante un año, por eso es mayor."}}
+]}
+</script>
+</head>
+<body>
+<main>
+  <h1>Simulador de plazo fijo</h1>
+  <p class="bajada">Calculá cuánto ganás con un plazo fijo tradicional y si el rendimiento le gana a la inflación.</p>
+
+  <form class="calculadora" id="form" data-resultado="salida">
+    <div class="campos">
+      <div>
+        <label for="capital">Monto a invertir</label>
+        <input id="capital" inputmode="decimal" value="1.000.000">
+      </div>
+      <div>
+        <label for="tna">TNA <small>(% que ofrece tu banco)</small></label>
+        <input id="tna" inputmode="decimal" value="30">
+      </div>
+      <div>
+        <label for="dias">Plazo <small>(días, mínimo 30)</small></label>
+        <input id="dias" inputmode="numeric" value="30">
+      </div>
+      <div>
+        <label for="inflacion">Inflación mensual esperada <small>(%, opcional)</small></label>
+        <input id="inflacion" inputmode="decimal" placeholder="Ej.: 2,5">
+      </div>
+    </div>
+    <div class="salida" id="salida" aria-live="polite"></div>
+  </form>
+
+  <h2>Cómo se calcula</h2>
+  <p>Los bancos informan una <strong>TNA</strong> (tasa nominal anual). El interés de un plazo fijo se calcula de forma proporcional a los días: <em>capital × TNA ÷ 100 × días ÷ 365</em>.</p>
+  <p>La <strong>TEA</strong> (tasa efectiva anual) muestra cuánto ganarías en un año si renovaras el plazo fijo una y otra vez reinvirtiendo los intereses. La <strong>TEM</strong> es la tasa efectiva mensual equivalente, útil para comparar con la inflación mensual que publica el INDEC.</p>
+  <p>El <strong>rendimiento real</strong> descuenta la inflación: si es negativo, tu plata pierde poder de compra aunque el número crezca.</p>
+
+  <h2>Preguntas frecuentes</h2>
+  <details><summary>¿El plazo fijo paga impuestos?</summary><p>Los intereses de plazos fijos en pesos de personas humanas están exentos de Ganancias. Los depósitos en bancos del país, incluido el plazo fijo, también están exentos de Bienes Personales. Si tenés una situación particular, consultalo con un contador.</p></details>
+  <details><summary>¿Qué pasa si retiro antes?</summary><p>El plazo fijo tradicional no se puede cancelar antes del vencimiento. Si necesitás liquidez, existe el plazo fijo precancelable, que paga una tasa menor si lo cancelás antes.</p></details>
+  <details><summary>¿Conviene un plazo fijo o una billetera virtual?</summary><p>Las billeteras y cuentas remuneradas te dejan retirar en cualquier momento, pero sus tasas cambian todos los días. Compará la TEA de ambas opciones con este simulador.</p></details>
+</main>
+<script>
+  UI.vincular('form', () => {
+    const capital = UI.valor('capital');
+    const tna = UI.valor('tna');
+    const dias = UI.valor('dias');
+    if (!(capital > 0) || !(tna >= 0) || !(dias > 0)) return UI.error('salida', 'Completá monto, TNA y días con valores válidos.');
+    const inflacionTxt = document.getElementById('inflacion').value.trim();
+    const r = Calc.plazoFijo({ capital, tna, dias, inflacionMensual: inflacionTxt ? UI.valor('inflacion') : null });
+    const filas = [
+      ['Interés ganado', UI.pesos(r.interes)],
+      ['TEA', UI.pct(r.tea)],
+      ['TEM', UI.pct(r.tem)],
+    ];
+    let nota = '';
+    if (r.rendimientoReal != null) {
+      filas.push(['Rendimiento real del período', UI.pct(r.rendimientoReal)]);
+      nota = r.rendimientoReal >= 0 ? 'Con esa inflación, el plazo fijo le gana a la inflación.' : 'Con esa inflación, el plazo fijo pierde contra la inflación.';
+    }
+    filas.push(['Total al vencimiento', UI.pesos(r.total), true]);
+    UI.mostrar('salida', filas, nota);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>¿Conviene pagar en cuotas o de contado? – Calculadora 2026</title>
+<meta name="description" content="Compará el precio de contado con el pago en cuotas considerando la inflación o la tasa que podrías ganar. Descubrí el interés real que te cobran.">
+<link rel="canonical" href="https://juanmarcosgianotti-cyber.github.io/Repositorio/herramientas/cuotas-o-contado.html">
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/calc.js"></script>
+<script src="../assets/site.js"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"¿Cuándo conviene pagar en cuotas?","acceptedAnswer":{"@type":"Answer","text":"Conviene cuando el valor actual de las cuotas, descontado por la inflación o por la tasa que podrías ganar con esa plata, es menor que el precio de contado. Las cuotas sin interés casi siempre convienen si hay inflación."}},
+{"@type":"Question","name":"¿Qué es el valor presente de las cuotas?","acceptedAnswer":{"@type":"Answer","text":"Es lo que valen hoy los pagos futuros. Con inflación, una cuota de $10.000 dentro de seis meses vale menos que $10.000 de hoy."}}
+]}
+</script>
+</head>
+<body>
+<main>
+  <h1>¿Cuotas o contado?</h1>
+  <p class="bajada">Calculá qué te conviene teniendo en cuenta la inflación o lo que podrías ganar invirtiendo esa plata.</p>
+
+  <form class="calculadora" id="form" data-resultado="salida">
+    <div class="campos">
+      <div>
+        <label for="contado">Precio de contado</label>
+        <input id="contado" inputmode="decimal" value="500.000">
+      </div>
+      <div>
+        <label for="cuotas">Cantidad de cuotas</label>
+        <input id="cuotas" inputmode="numeric" value="6">
+      </div>
+      <div>
+        <label for="monto">Valor de cada cuota</label>
+        <input id="monto" inputmode="decimal" value="95.000">
+      </div>
+      <div>
+        <label for="tasa">Inflación o tasa mensual <small>(%)</small></label>
+        <input id="tasa" inputmode="decimal" value="2,5">
+      </div>
+    </div>
+    <div class="salida" id="salida" aria-live="polite"></div>
+  </form>
+
+  <h2>Cómo funciona</h2>
+  <p>Pagar en cuotas significa usar plata del futuro, que con inflación vale menos. Para comparar de forma justa, la calculadora trae cada cuota a <strong>valor presente</strong>: la divide por (1 + tasa) elevado al número de mes en que se paga.</p>
+  <p>Como tasa podés usar la <strong>inflación mensual esperada</strong> o la <strong>tasa mensual que ganarías</strong> si dejaras la plata en un plazo fijo o una cuenta remunerada. Usá la mayor de las dos si la plata la tenés disponible.</p>
+  <p>Si el valor presente de las cuotas es <strong>menor</strong> al precio de contado, conviene financiar. Si es mayor, conviene pagar de contado o pedir un descuento.</p>
+  <p>También se muestra la <strong>tasa implícita</strong>: el interés mensual que realmente te cobran al pagar en cuotas en lugar de contado.</p>
+
+  <h2>Preguntas frecuentes</h2>
+  <details><summary>¿Las cuotas sin interés convienen siempre?</summary><p>Si el total en cuotas es igual al contado y hay inflación positiva, sí. Pero muchos comercios ofrecen descuento por pago contado o en efectivo: en ese caso compará contra el precio con descuento.</p></details>
+  <details><summary>¿Se incluyen los impuestos de la tarjeta?</summary><p>No. Si la tarjeta suma intereses, IVA o cargos, el valor real de cada cuota es mayor: ingresá el monto final que figura en el resumen.</p></details>
+</main>
+<script>
+  UI.vincular('form', () => {
+    const contado = UI.valor('contado');
+    const cuotas = UI.valor('cuotas');
+    const montoCuota = UI.valor('monto');
+    const tasaMensual = UI.valor('tasa');
+    if (!(contado > 0) || !(cuotas >= 1) || !(montoCuota > 0) || !(tasaMensual >= 0)) {
+      return UI.error('salida', 'Completá todos los campos con valores válidos.');
+    }
+    const r = Calc.cuotasVsContado({ contado, cuotas: Math.round(cuotas), montoCuota, tasaMensual });
+    const veredicto = { cuotas: 'Conviene pagar en cuotas', contado: 'Conviene pagar de contado', igual: 'Da lo mismo' }[r.conviene];
+    const filas = [
+      ['Total pagado en cuotas', UI.pesos(r.totalCuotas)],
+      ['Recargo sobre el contado', UI.pct(r.recargoPct)],
+      ['Valor presente de las cuotas', UI.pesos(r.valorPresente)],
+    ];
+    if (r.tasaImplicitaMensual != null) filas.push(['Tasa implícita mensual', UI.pct(r.tasaImplicitaMensual)]);
+    filas.push([veredicto, UI.pesos(Math.abs(r.diferencia)), true]);
+    UI.mostrar('salida', filas, r.conviene === 'cuotas' ? 'La diferencia es lo que ganás en pesos de hoy al financiar.' : r.conviene === 'contado' ? 'La diferencia es lo que perdés en pesos de hoy al financiar.' : '');
+  });
+</script>
+</body>
+</html>

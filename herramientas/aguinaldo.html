@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de aguinaldo (SAC) 2026 – completo y proporcional</title>
+<meta name="description" content="Calculá tu aguinaldo de junio o diciembre en Argentina, completo o proporcional a los días trabajados, en bruto y neto.">
+<link rel="canonical" href="https://juanmarcosgianotti-cyber.github.io/Repositorio/herramientas/aguinaldo.html">
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/calc.js"></script>
+<script src="../assets/site.js"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"¿Cómo se calcula el aguinaldo?","acceptedAnswer":{"@type":"Answer","text":"Es el 50% de la mejor remuneración mensual bruta del semestre. Si no trabajaste el semestre completo, se paga en proporción a los días trabajados."}},
+{"@type":"Question","name":"¿Cuándo se paga el aguinaldo?","acceptedAnswer":{"@type":"Answer","text":"La primera cuota vence el 30 de junio y la segunda el 18 de diciembre. El empleador tiene hasta 4 días hábiles posteriores para pagarlo."}}
+]}
+</script>
+</head>
+<body>
+<main>
+  <h1>Calculadora de aguinaldo (SAC)</h1>
+  <p class="bajada">Calculá el sueldo anual complementario de junio o diciembre, completo o proporcional.</p>
+
+  <form class="calculadora" id="form" data-resultado="salida">
+    <div class="campos">
+      <div>
+        <label for="sueldo">Mejor sueldo bruto del semestre</label>
+        <input id="sueldo" inputmode="decimal" value="1.200.000">
+      </div>
+      <div>
+        <label for="semestre">Semestre</label>
+        <select id="semestre">
+          <option value="1">1.º semestre (paga en junio)</option>
+          <option value="2">2.º semestre (paga en diciembre)</option>
+        </select>
+      </div>
+      <div>
+        <label for="anio">Año</label>
+        <input id="anio" inputmode="numeric">
+      </div>
+      <div>
+        <label for="dias">Días trabajados en el semestre <small>(vacío = completo)</small></label>
+        <input id="dias" inputmode="numeric" placeholder="Semestre completo">
+      </div>
+    </div>
+    <div class="salida" id="salida" aria-live="polite"></div>
+  </form>
+
+  <h2>Cómo se calcula el aguinaldo</h2>
+  <p>El aguinaldo o <strong>sueldo anual complementario (SAC)</strong> está regulado por la Ley 23.041. Se paga en dos cuotas por año y cada una equivale al <strong>50% de la mejor remuneración mensual bruta</strong> devengada en el semestre.</p>
+  <p>La fórmula es: <em>mejor sueldo ÷ 2 × días trabajados ÷ días del semestre</em>. El primer semestre (enero a junio) tiene 181 días, o 182 en años bisiestos, y el segundo (julio a diciembre), 184.</p>
+  <p>La "mejor remuneración" incluye todos los conceptos remunerativos del mes: básico, antigüedad, presentismo y horas extra. Si un mes cobraste horas extra y fue el más alto, ese es el que se toma.</p>
+
+  <h2>Ejemplo</h2>
+  <p>Si tu mejor sueldo del semestre fue $1.200.000 y trabajaste el semestre completo, te corresponden <strong>$600.000 brutos</strong>. Con el 17% de aportes quedan $498.000 netos. Si entraste a trabajar el 1 de octubre, en el segundo semestre trabajaste 92 de 184 días y te corresponde la mitad: $300.000 brutos.</p>
+
+  <h2>Preguntas frecuentes</h2>
+  <details><summary>¿El aguinaldo paga Ganancias?</summary><p>Sí, para quienes están alcanzados por el impuesto. La retención depende de tus ingresos anuales y deducciones, por eso esta calculadora solo resta los aportes del 17%.</p></details>
+  <details><summary>¿Me corresponde aguinaldo si renuncio o me despiden?</summary><p>Sí. En la liquidación final se paga el aguinaldo proporcional a los días trabajados del semestre. Podés verlo en la <a href="indemnizacion.html">calculadora de indemnización</a>.</p></details>
+  <details><summary>¿Las licencias cuentan como días trabajados?</summary><p>Las vacaciones, las licencias pagas y los días por enfermedad cuentan. Las licencias sin goce de sueldo y la excedencia no.</p></details>
+</main>
+<script>
+  const hoy = new Date();
+  document.getElementById('anio').value = hoy.getFullYear();
+  document.getElementById('semestre').value = hoy.getMonth() < 6 ? '1' : '2';
+  UI.vincular('form', () => {
+    const mejorSueldo = UI.valor('sueldo');
+    const anio = UI.valor('anio');
+    if (!(mejorSueldo > 0)) return UI.error('salida', 'Ingresá un sueldo válido.');
+    if (!(anio > 1990)) return UI.error('salida', 'Ingresá un año válido.');
+    const diasTxt = document.getElementById('dias').value.trim();
+    const r = Calc.aguinaldo({
+      mejorSueldo,
+      anio,
+      semestre: Number(document.getElementById('semestre').value),
+      diasTrabajados: diasTxt ? UI.valor('dias') : undefined,
+    });
+    const neto = r.bruto * (1 - 0.17);
+    UI.mostrar('salida', [
+      ['Días computados', `${r.dias} de ${r.diasSemestre}`],
+      ['Aguinaldo bruto', UI.pesos(r.bruto)],
+      ['Aportes (17%)', UI.pesos(r.bruto - neto)],
+      ['Aguinaldo neto estimado', UI.pesos(neto), true],
+    ], 'El neto no considera la retención de Ganancias ni el tope de la base imponible.');
+  });
+</script>
+</body>
+</html>

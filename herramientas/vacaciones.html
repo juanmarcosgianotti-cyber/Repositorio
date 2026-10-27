@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de vacaciones 2026 – días y plus vacacional (Argentina)</title>
+<meta name="description" content="Cuántos días de vacaciones te corresponden según tu antigüedad y cuánto cobrás: valor del día (sueldo ÷ 25) y plus vacacional según la Ley de Contrato de Trabajo.">
+<link rel="canonical" href="https://juanmarcosgianotti-cyber.github.io/Repositorio/herramientas/vacaciones.html">
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/calc.js"></script>
+<script src="../assets/site.js"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"¿Cuántos días de vacaciones me corresponden?","acceptedAnswer":{"@type":"Answer","text":"Según el art. 150 de la LCT: 14 días corridos con menos de 5 años de antigüedad, 21 días entre 5 y 10 años, 28 días entre 10 y 20 años y 35 días con más de 20 años."}},
+{"@type":"Question","name":"¿Cómo se pagan las vacaciones?","acceptedAnswer":{"@type":"Answer","text":"Cada día de vacaciones se paga dividiendo el sueldo mensual por 25 (art. 155 LCT). Como un día normal vale sueldo ÷ 30, en vacaciones se cobra un plus."}}
+]}
+</script>
+</head>
+<body>
+<main>
+  <h1>Calculadora de vacaciones</h1>
+  <p class="bajada">Calculá cuántos días te corresponden y cuánto vas a cobrar por tus vacaciones.</p>
+
+  <form class="calculadora" id="form" data-resultado="salida">
+    <div class="campos">
+      <div>
+        <label for="sueldo">Sueldo bruto mensual</label>
+        <input id="sueldo" inputmode="decimal" value="1.200.000">
+      </div>
+      <div>
+        <label for="antiguedad">Antigüedad al 31/12 <small>(años)</small></label>
+        <input id="antiguedad" inputmode="numeric" value="3">
+      </div>
+    </div>
+    <div class="salida" id="salida" aria-live="polite"></div>
+  </form>
+
+  <h2>Días de vacaciones según antigüedad</h2>
+  <table class="resultado">
+    <tr><th>Menos de 5 años</th><td>14 días corridos</td></tr>
+    <tr><th>De 5 a 10 años</th><td>21 días corridos</td></tr>
+    <tr><th>De 10 a 20 años</th><td>28 días corridos</td></tr>
+    <tr><th>Más de 20 años</th><td>35 días corridos</td></tr>
+  </table>
+  <p class="nota">La antigüedad se cuenta al 31 de diciembre del año al que corresponden las vacaciones. Algunos convenios colectivos otorgan más días.</p>
+
+  <h2>Cómo se calcula el pago</h2>
+  <p>El art. 155 de la Ley de Contrato de Trabajo establece que cada día de vacaciones se paga como <strong>sueldo mensual ÷ 25</strong>. Un día normal de trabajo se paga como sueldo ÷ 30, así que la diferencia es el llamado <strong>plus vacacional</strong>.</p>
+  <p>Las vacaciones se deben pagar <strong>al comienzo</strong> de las mismas, no a fin de mes. Si en el año no llegaste a trabajar la mitad de los días hábiles (por ejemplo, porque entraste en la segunda mitad del año), te corresponde un día de vacaciones cada 20 días trabajados.</p>
+
+  <h2>Ejemplo</h2>
+  <p>Con un sueldo de $1.200.000 y 3 años de antigüedad te corresponden 14 días. El valor del día es $48.000, por lo que cobrás <strong>$672.000</strong> por las vacaciones. Si esos 14 días los hubieras trabajado, habrías cobrado $560.000. El plus es de $112.000.</p>
+
+  <h2>Preguntas frecuentes</h2>
+  <details><summary>¿Cuándo me tienen que dar las vacaciones?</summary><p>Entre el 1 de octubre y el 30 de abril del año siguiente, y el empleador debe avisarte con al menos 45 días de anticipación. Los convenios colectivos y los acuerdos individuales pueden prever otros esquemas, como el fraccionamiento.</p></details>
+  <details><summary>¿Qué pasa con las vacaciones si me voy de la empresa?</summary><p>Se pagan las vacaciones no gozadas proporcionales al tiempo trabajado en el año. Está incluido en la <a href="indemnizacion.html">calculadora de indemnización</a>.</p></details>
+</main>
+<script>
+  UI.vincular('form', () => {
+    const sueldo = UI.valor('sueldo');
+    const antiguedadAnios = UI.valor('antiguedad');
+    if (!(sueldo > 0)) return UI.error('salida', 'Ingresá un sueldo válido.');
+    if (!(antiguedadAnios >= 0)) return UI.error('salida', 'Ingresá la antigüedad en años.');
+    const r = Calc.vacaciones({ sueldo, antiguedadAnios });
+    UI.mostrar('salida', [
+      ['Días que te corresponden', `${r.dias} días corridos`],
+      ['Valor por día (sueldo ÷ 25)', UI.pesos(r.valorDia)],
+      ['Plus vacacional', UI.pesos(r.plus)],
+      ['Total a cobrar por vacaciones (bruto)', UI.pesos(r.total), true],
+    ]);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculá Fácil – Calculadoras laborales y financieras de Argentina</title>
+<meta name="description" content="Calculadoras gratis para Argentina: sueldo neto, aguinaldo, vacaciones, indemnización por despido, plazo fijo, cuotas o contado e IVA. Actualizadas a 2026.">
+<link rel="canonical" href="https://juanmarcosgianotti-cyber.github.io/Repositorio/">
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/calc.js"></script>
+<script src="assets/site.js"></script>
+</head>
+<body>
+<main>
+  <h1>Calculadoras para Argentina</h1>
+  <p class="bajada">Herramientas gratuitas, rápidas y sin registro para hacer tus cuentas laborales y financieras. Todo se calcula en tu navegador: no guardamos tus datos.</p>
+
+  <h2>Trabajo y sueldo</h2>
+  <ul class="grilla">
+    <li><a href="herramientas/sueldo-neto.html"><strong>Sueldo neto</strong><span>De bruto a bolsillo: jubilación, obra social, PAMI y sindicato.</span></a></li>
+    <li><a href="herramientas/aguinaldo.html"><strong>Aguinaldo (SAC)</strong><span>Completo o proporcional, de junio o diciembre.</span></a></li>
+    <li><a href="herramientas/vacaciones.html"><strong>Vacaciones</strong><span>Días según antigüedad y cuánto cobrás.</span></a></li>
+    <li><a href="herramientas/indemnizacion.html"><strong>Indemnización por despido</strong><span>Liquidación final con la reforma laboral 2026.</span></a></li>
+  </ul>
+
+  <h2>Plata y precios</h2>
+  <ul class="grilla">
+    <li><a href="herramientas/plazo-fijo.html"><strong>Plazo fijo</strong><span>Interés, TEA y si le ganás a la inflación.</span></a></li>
+    <li><a href="herramientas/cuotas-o-contado.html"><strong>¿Cuotas o contado?</strong><span>Qué conviene con inflación y la tasa real que te cobran.</span></a></li>
+    <li><a href="herramientas/iva.html"><strong>IVA</strong><span>Sumá o quitá 21%, 10,5% o 27%.</span></a></li>
+  </ul>
+
+  <p class="nota">Última revisión de valores: <span id="actualizado"></span>.</p>
+</main>
+<script>
+  document.getElementById('actualizado').textContent = Calc.CONFIG.actualizado.split('-').reverse().join('/');
+</script>
+</body>
+</html>
